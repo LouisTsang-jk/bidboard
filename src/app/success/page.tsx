@@ -4,7 +4,10 @@ import Link from "next/link";
 import { BrandMark } from "@/components/brand-mark";
 import { getStripe } from "@/lib/stripe";
 
-export const metadata: Metadata = { title: "Payment received", robots: { index: false } };
+export const metadata: Metadata = {
+  title: "Payment received",
+  robots: { index: false, follow: false, noarchive: true },
+};
 export const dynamic = "force-dynamic";
 
 export default async function SuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import { BidForm } from "@/components/bid-form";
 import { BrandMark } from "@/components/brand-mark";
@@ -8,6 +9,10 @@ import { getLeaderboard } from "@/lib/leaderboard";
 import { formatUsdMinor } from "@/lib/money";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const listings = await getLeaderboard();

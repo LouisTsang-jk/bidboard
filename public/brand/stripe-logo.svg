@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" role="img" aria-labelledby="title">
+  <title id="title">outbid.website</title>
+  <rect x="34" y="144" width="42" height="56" fill="#07111f"/>
+  <rect x="88" y="104" width="42" height="96" fill="#07111f"/>
+  <rect x="142" y="52" width="42" height="148" fill="#07111f"/>
+  <path d="M34 222H188" fill="none" stroke="#07111f" stroke-width="14"/>
+  <path d="m152 44 38 8-20 31" fill="none" stroke="#ff5c35" stroke-width="14"/>
+  <text x="226" y="143" fill="#07111f" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700">OUTBID.WEBSITE</text>
+</svg>

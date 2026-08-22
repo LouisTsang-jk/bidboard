@@ -3,7 +3,36 @@ import Link from "next/link";
 
 import { BrandMark } from "@/components/brand-mark";
 
-export const metadata: Metadata = { title: "About" };
+const description =
+  "How outbid.website turns confirmed one-time bids into a transparent public ranking for internet projects.";
+
+export const metadata: Metadata = {
+  title: "About",
+  description,
+  alternates: { canonical: "/about" },
+  openGraph: {
+    type: "website",
+    url: "/about",
+    siteName: "outbid.website",
+    locale: "en_US",
+    title: "About outbid.website",
+    description,
+    images: [
+      {
+        url: "/brand/og-auction-tape.png",
+        width: 1200,
+        height: 630,
+        alt: "outbid.website open bidboard",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About outbid.website",
+    description,
+    images: ["/brand/og-auction-tape.png"],
+  },
+};
 
 export default function AboutPage() {
   return (
