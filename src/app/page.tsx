@@ -54,10 +54,10 @@ export default async function HomePage() {
         <div className="hero__wash" />
         <div className="hero__copy">
           <p className="eyebrow"><span /> The open bidboard</p>
-          <h1>Buy the height.<br /><em>Keep the spotlight.</em></h1>
+          <h1>Claim #1.<br /><em>{formatUsdMinor(claimFirst)} takes it.</em></h1>
           <p className="hero__lede">
-            One payment puts your link on a public ranking. Higher bids move higher.
-            Every jump is visible.
+            New spots start at $5. A smaller payment still lands wherever its cumulative
+            total can take it. Already listed? Use the same URL to add another bid.
           </p>
           <div className="hero__price"><span>Current #1</span><strong>{formatUsdMinor(topBid)}</strong></div>
         </div>
