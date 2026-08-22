@@ -7,7 +7,6 @@
     "build": "next build",
     "postbuild": "cp -R public .next/standalone/public && mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static",
     "start": "node .next/standalone/server.js",
-    "worker": "tsx src/worker.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

@@ -14,11 +14,11 @@ Input text is at least 16px, labels are 13px, controls have visible boundaries, 
 
 ## Payment consistency
 
-The local checkout intent is created before Stripe. Stripe receives only the intent ID in metadata and uses a stable idempotency key. The webhook verifies its signature, event ID, session ID, amount, and currency against PostgreSQL. A single transaction inserts the unique event and payment, atomically increments the listing total, records a contribution, and writes an outbox event.
+The local checkout intent is created before Stripe. Stripe receives only the intent ID in metadata and uses a stable idempotency key. The webhook verifies its signature, event ID, session ID, amount, and currency against PostgreSQL. A single transaction inserts the unique event and payment, atomically increments the listing total, and records a contribution. After commit, the same Next.js request invalidates the disposable leaderboard cache.
 
 ## Cache strategy
 
-PostgreSQL is authoritative. Redis keeps a versioned JSON leaderboard for 10–20 seconds, a five-minute stale copy, a 1.5-second single-flight lock, shared rate limits, and buffered clicks. Redis loss can reduce performance or temporarily delay click counts, but cannot change payment correctness.
+PostgreSQL is authoritative. Redis keeps a versioned JSON leaderboard for 10–20 seconds, a five-minute stale copy, a 1.5-second single-flight lock, shared rate limits, and short-lived click batches. Tracked redirects use Next.js `after()` so analytics do not delay navigation; a per-listing Redis lock coalesces concurrent clicks before one atomic database update. Redis loss falls back to direct click writes and cannot change payment correctness.
 
 ## Visual direction
 
@@ -30,7 +30,7 @@ The homepage footer, About page, Rules page, README, and public build prompt inc
 
 ## Account isolation
 
-`outbid.website` uses its own United Kingdom Stripe account and sandbox instead of sharing LACUNA.FM's payment account. The test product that was briefly created in the LACUNA.FM sandbox was archived before any transaction occurred. The Railway Web and Worker services share source code, database, and Redis, but service-specific commands and health checks are configured independently in Railway.
+`outbid.website` uses its own United Kingdom Stripe account and sandbox instead of sharing LACUNA.FM's payment account. The test product that was briefly created in the LACUNA.FM sandbox was archived before any transaction occurred. Its Railway Web service uses the project's dedicated PostgreSQL and Redis services.
 
 The independent Sandbox Product keeps one active USD 1 default Price. The former USD 5 Price is archived. Checkout still uses dynamic `price_data` against the reusable Product, so server-validated bid amounts above USD 1 do not create permanent Prices.
 

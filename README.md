@@ -8,19 +8,19 @@ Mechanism [inspired by outbid.lol](https://outbid.lol/). Design, code, copy, and
 
 ```text
 Browser → Railway web (Next.js)
-              ├── PostgreSQL: listings, checkout intents, payments, events, outbox
-              ├── Redis: hot/stale leaderboard, rate limits, buffered clicks
+              ├── PostgreSQL: listings, checkout intents, payments, events, click metrics
+              ├── Redis: hot/stale leaderboard, rate limits, short-lived click batches
               └── Stripe Checkout
-                       └── signed webhook → PostgreSQL transaction → outbox
+                       └── signed webhook → PostgreSQL transaction → cache invalidation
 
-Railway worker → outbox processing, cache invalidation, click aggregation
+Tracked redirect → Next.js after() → Redis batch → PostgreSQL click metrics
 ```
 
 - PostgreSQL is the only durable authority.
 - Redis uses a 10–20 second jittered hot cache, five-minute stale fallback, and a short single-flight rebuild lock.
 - The payment transaction uniquely records the Stripe event, local intent, payment, and contribution before atomically incrementing the listing total.
 - Stripe Checkout uses one reusable `Bidboard Placement` Product with dynamic one-time pricing.
-- Clicks are buffered in Redis and visitor estimates use hourly HMAC values; raw IP addresses are not retained.
+- Clicks are coalesced in short Redis batches and persisted from the Next.js request lifecycle; visitor estimates use hourly HMAC values and raw IP addresses are not retained.
 
 ## Local setup
 
@@ -36,8 +36,6 @@ pnpm dev
 
 Without `DATABASE_URL` and `REDIS_URL`, the homepage deliberately renders a read-only demo board; payment and tracked redirects stay disabled.
 
-Run the worker separately with `pnpm worker`.
-
 ## Environment variables
 
 | Variable | Purpose |
@@ -51,7 +49,6 @@ Run the worker separately with `pnpm worker`.
 | `STRIPE_PRODUCT_ID` | Reusable `Bidboard Placement` Product ID |
 | `ADMIN_TOKEN` | Bearer token for operator endpoints |
 | `VISITOR_HASH_SECRET` | Rotatable secret for privacy-preserving click hashes |
-| `WORKER_POLL_MS` | Outbox worker interval; default `5000` |
 
 Never commit real values. Railway variables should reference the provisioned PostgreSQL and Redis services.
 
@@ -76,7 +73,7 @@ curl -X POST https://outbid.website/api/admin/cache/rebuild \
   -H "Authorization: Bearer $ADMIN_TOKEN"
 ```
 
-If Redis fails, leaderboard reads fall back to PostgreSQL or the stale cache. Payment correctness never depends on Redis. Failed outbox work remains unprocessed for retry.
+If Redis fails, leaderboard reads fall back to PostgreSQL or the stale cache, and click counts write directly to PostgreSQL. Payment correctness never depends on Redis.
 
 ## Operator endpoints
 
@@ -90,11 +87,10 @@ Both require `Authorization: Bearer <ADMIN_TOKEN>` and must not be exposed throu
 Provision one Railway project with:
 
 - `web`: build `pnpm build`, start `pnpm start`, health check `/api/health`
-- `worker`: build `pnpm install --frozen-lockfile`, start `pnpm worker`
 - PostgreSQL
 - Redis
 
-Set a release or pre-deploy command of `pnpm db:migrate` on the web service. Keep the web service stateless and scale horizontally only after checking the aggregate PostgreSQL pool size. The worker can remain one replica; its database outbox is retryable.
+Set a release or pre-deploy command of `pnpm db:migrate` on the web service. Keep the web service stateless and scale horizontally only after checking the aggregate PostgreSQL pool size. Redis atomic batches ensure horizontally scaled web instances do not double-flush click counts.
 
 Add `outbid.website` to the web service, then apply Railway’s exact DNS record at the domain provider. Keep the Railway-generated domain available for the Stripe webhook until custom-domain HTTPS is verified.
 

@@ -7,7 +7,6 @@ import {
   checkoutIntents,
   contributions,
   listings,
-  outbox,
   payments,
   stripeEvents,
 } from "@/db/schema";
@@ -118,11 +117,6 @@ export async function POST(request: Request) {
         .update(checkoutIntents)
         .set({ status: "PAID" })
         .where(eq(checkoutIntents.id, intent.id));
-      await tx.insert(outbox).values({
-        topic: "LEADERBOARD_CHANGED",
-        aggregateId: intent.listingId,
-        payload: { listingId: intent.listingId, eventId: event.id },
-      });
       await tx
         .update(stripeEvents)
         .set({ processedAt: new Date() })
