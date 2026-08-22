@@ -71,7 +71,10 @@ export default async function HomePage() {
           ))}
           <p className="rail-note">Paid totals are permanent. Rank is not.</p>
         </div>
-        <BidForm suggestedAmount={Number(claimFirst) / 100} />
+        <BidForm
+          leaderAmount={Number(topBid) / 100}
+          takeFirstAmount={Number(claimFirst) / 100}
+        />
       </section>
 
       <section className="board shell" id="leaderboard">
@@ -90,7 +93,7 @@ export default async function HomePage() {
       <section className="how shell">
         <p className="eyebrow"><span /> How it works</p>
         <div className="how__grid">
-          <div><strong>01</strong><h3>Name your position</h3><p>Submit a public URL, a clear description, and any bid from $1.</p></div>
+          <div><strong>01</strong><h3>Choose your bid</h3><p>Enter your URL and join from $1, take the lead, or choose a custom amount.</p></div>
           <div><strong>02</strong><h3>Pay on Stripe</h3><p>Checkout is hosted by Stripe. Card details never touch this site.</p></div>
           <div><strong>03</strong><h3>Move in public</h3><p>Your confirmed payment adds to the project total and the ranking updates.</p></div>
         </div>
@@ -100,7 +103,6 @@ export default async function HomePage() {
         <div><BrandMark /><p>Mechanism <a href="https://outbid.lol/" rel="noopener">inspired by outbid.lol</a>.<br />Built independently for outbid.website.</p></div>
         <div className="footer__links"><Link href="/about">About</Link><Link href="/rules">Rules</Link><a href="mailto:hello@outbid.website">Contact</a></div>
       </footer>
-      <a className="mobile-bid" href="#place-a-bid">Place a bid · from $1</a>
     </main>
   );
 }

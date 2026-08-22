@@ -6,6 +6,12 @@ Each confirmed payment permanently adds to a normalized URL’s cumulative total
 
 The enforced minimum is USD 1. When the board is empty, the suggested opening amount is USD 1; otherwise the claim-first suggestion is the current leader plus USD 1. Smaller accepted bids can still enter below the leader based on their cumulative total.
 
+## Bid form comprehension
+
+The homepage uses a conventional two-step bid flow instead of presenting four compressed fields as a data console. Step 1 asks only for the website URL and a clearly separated amount choice: USD 1 minimum, the current-leader-plus-USD-1 `Take #1` amount, or a custom amount. USD 1 is the default and the `Take #1` figure is a current-board calculation, not a reserved rank. Step 2 shows the chosen URL and exact payment amount before asking for the public project name and description; the final button names Stripe and repeats the charge amount.
+
+Input text is at least 16px, labels are 13px, controls have visible boundaries, and primary targets are at least 48px high. The former fixed mobile bid bar was removed because it covered the form it linked to. Checkout is still created only after Step 2. An unchanged failed submission reuses its idempotency key, while editing the draft resets the key; the API rejects reuse with conflicting bid details.
+
 ## Payment consistency
 
 The local checkout intent is created before Stripe. Stripe receives only the intent ID in metadata and uses a stable idempotency key. The webhook verifies its signature, event ID, session ID, amount, and currency against PostgreSQL. A single transaction inserts the unique event and payment, atomically increments the listing total, records a contribution, and writes an outbox event.

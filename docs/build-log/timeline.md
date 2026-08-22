@@ -34,5 +34,6 @@
 | `2026-08-22T12:33:30+08:00` | Completed a Stripe test-card payment; the signed production Webhook returned HTTP 200 with `result: applied` and published `outbid.website` at a cumulative USD 1. | Stripe Event Delivery and the production leaderboard. |
 | `2026-08-22T12:35:00+08:00` | Manually resent the identical Stripe Event; the Webhook returned HTTP 200 with `result: duplicate-event`, while the public total remained USD 1. | [`15-webhook-idempotency.png`](./screenshots/15-webhook-idempotency.png) |
 | `2026-08-22T12:35:54+08:00` | Completed the production smoke test at `https://outbid.website`: valid HTTPS, one active position, USD 1 minimum, original artwork, attribution, Railway services, CDN/Redis cache path, Checkout, and Webhook idempotency all verified. | [`16-final-homepage.png`](./screenshots/16-final-homepage.png) |
+| `2026-08-22T12:58:14+08:00` | Replaced the compressed single-row bid console with a legible two-step flow: URL and explicit USD 1 / take-first / custom choices first, then public project details and an amount-specific Stripe CTA. Verified desktop, 390px mobile, focus movement, back/forward draft retention, and a USD 1.01 custom amount. | [`17-two-step-bid-form.png`](./screenshots/17-two-step-bid-form.png) |
 
 The end time was recorded only after the production smoke test and duplicate-Webhook verification passed.

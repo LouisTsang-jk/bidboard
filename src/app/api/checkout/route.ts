@@ -123,6 +123,21 @@ export async function POST(request: Request) {
         .limit(1);
     }
     if (!intent) throw new Error("Could not create checkout intent");
+    if (
+      intent.listingId !== listing.id ||
+      intent.amountMinor !== amountMinor ||
+      intent.proposedTitle !== parsed.data.title ||
+      intent.proposedDescription !== parsed.data.description ||
+      intent.requesterFingerprintHash !== requesterHash
+    ) {
+      return NextResponse.json(
+        {
+          code: "IDEMPOTENCY_CONFLICT",
+          error: "The bid details changed. Please submit the updated bid again.",
+        },
+        { status: 409 },
+      );
+    }
     if (intent.stripeCheckoutUrl) {
       return NextResponse.json({ url: intent.stripeCheckoutUrl, reused: true });
     }
