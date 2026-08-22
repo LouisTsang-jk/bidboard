@@ -20,5 +20,8 @@
 | `2026-08-22T11:21:03+08:00` | Prepared a public `LouisTsang-jk/bidboard` GitHub repository form without submitting it. | [`05-github-prepared.png`](./screenshots/05-github-prepared.png) |
 | `2026-08-22T11:23:02+08:00` | Prepared a Stripe test-mode one-time USD 5 default price without saving it. | [`06-stripe-price-prepared.png`](./screenshots/06-stripe-price-prepared.png) |
 | `2026-08-22T11:23:08+08:00` | Prepared the `Bidboard Placement` Stripe test product without saving it. | [`07-stripe-product-prepared.png`](./screenshots/07-stripe-product-prepared.png) |
+| `2026-08-22T11:29:37+08:00` | Created the first test product in the wrong LACUNA.FM sandbox, identified the account-isolation error, and archived the product before continuing. It never handled a transaction. | [`08-stripe-product-created.png`](./screenshots/08-stripe-product-created.png) |
+| `2026-08-22T11:38:06+08:00` | Created a separate United Kingdom Stripe account and sandbox for `outbid.website`. | [`09-stripe-independent-account.png`](./screenshots/09-stripe-independent-account.png) |
+| `2026-08-22T11:39:50+08:00` | Created the correct sandbox `Bidboard Placement` product and USD 5 default price in the independent account. | [`10-stripe-product-correct-account.png`](./screenshots/10-stripe-product-correct-account.png) |
 
 The end time must only be added after `https://outbid.website` passes the production smoke test.

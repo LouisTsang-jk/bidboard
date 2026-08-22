@@ -19,3 +19,7 @@ The interface uses an original “Auction Tape” direction: midnight navy, acid
 ## Attribution
 
 The homepage footer, About page, Rules page, README, and public build prompt include a visible link crediting outbid.lol as the mechanism inspiration.
+
+## Account isolation
+
+`outbid.website` uses its own United Kingdom Stripe account and sandbox instead of sharing LACUNA.FM's payment account. The test product that was briefly created in the LACUNA.FM sandbox was archived before any transaction occurred. The Railway Web and Worker services share source code, database, and Redis, but service-specific commands and health checks are configured independently in Railway.
