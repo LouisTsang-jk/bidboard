@@ -23,3 +23,7 @@ The homepage footer, About page, Rules page, README, and public build prompt inc
 ## Account isolation
 
 `outbid.website` uses its own United Kingdom Stripe account and sandbox instead of sharing LACUNA.FM's payment account. The test product that was briefly created in the LACUNA.FM sandbox was archived before any transaction occurred. The Railway Web and Worker services share source code, database, and Redis, but service-specific commands and health checks are configured independently in Railway.
+
+## Railway rendering and edge cache
+
+Railway's image build phase cannot resolve another service's private `*.railway.internal` hostname. The public homepage therefore renders dynamically after deployment instead of querying PostgreSQL during `next build`. Redis remains the rebuildable 10–20 second hot cache, while the homepage response advertises `s-maxage=10, stale-while-revalidate=60` and Railway CDN caching is enabled with origin-header and SWR support.
