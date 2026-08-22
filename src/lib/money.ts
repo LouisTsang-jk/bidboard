@@ -1,4 +1,4 @@
-const MIN_BID_MINOR = 500n;
+const MIN_BID_MINOR = 100n;
 const MAX_BID_MINOR = 10_000_000n;
 
 export function dollarsToMinor(value: string | number): bigint {
@@ -9,7 +9,7 @@ export function dollarsToMinor(value: string | number): bigint {
 
   const [whole, fraction = ""] = normalized.split(".");
   const amount = BigInt(whole) * 100n + BigInt(fraction.padEnd(2, "0"));
-  if (amount < MIN_BID_MINOR) throw new Error("The minimum bid is $5.");
+  if (amount < MIN_BID_MINOR) throw new Error("The minimum bid is $1.");
   if (amount > MAX_BID_MINOR) throw new Error("The maximum bid is $100,000.");
   return amount;
 }

@@ -16,7 +16,7 @@ export default function RulesPage() {
         <p className="eyebrow"><span /> Rules</p>
         <h1>Clear money. Clear rank.</h1>
         <ol className="rules-list">
-          <li><strong>Minimum bid: $5.</strong><span>All amounts are one-time payments in USD.</span></li>
+          <li><strong>Minimum bid: $1.</strong><span>All amounts are one-time payments in USD.</span></li>
           <li><strong>Bids accumulate.</strong><span>Paying again for the same normalized URL adds to its confirmed total.</span></li>
           <li><strong>Higher total ranks first.</strong><span>Equal totals keep the earlier first-paid position.</span></li>
           <li><strong>No position is reserved.</strong><span>The board can move between opening Checkout and payment confirmation.</span></li>

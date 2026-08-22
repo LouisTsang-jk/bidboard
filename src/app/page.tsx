@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const listings = await getLeaderboard();
   const topBid = BigInt(listings[0]?.totalAmountMinor ?? 0);
-  const claimFirst = topBid > 0n ? topBid + 100n : 500n;
+  const claimFirst = topBid > 0n ? topBid + 100n : 100n;
 
   return (
     <main>
@@ -22,7 +22,7 @@ export default async function HomePage() {
             <div className="ticker__set" aria-hidden={copy === 1} key={copy}>
               <span>THE OPEN BIDBOARD</span>
               <span>{listings.length} POSITIONS ACTIVE</span>
-              <span>MINIMUM BID $5</span>
+              <span>MINIMUM BID $1</span>
               <span>RANKING UPDATES AFTER PAYMENT</span>
             </div>
           ))}
@@ -56,7 +56,7 @@ export default async function HomePage() {
           <p className="eyebrow"><span /> The open bidboard</p>
           <h1>Claim #1.<br /><em>{formatUsdMinor(claimFirst)} takes it.</em></h1>
           <p className="hero__lede">
-            New spots start at $5. A smaller payment still lands wherever its cumulative
+            New spots start at $1. A smaller payment still lands wherever its cumulative
             total can take it. Already listed? Use the same URL to add another bid.
           </p>
           <div className="hero__price"><span>Current #1</span><strong>{formatUsdMinor(topBid)}</strong></div>
@@ -90,7 +90,7 @@ export default async function HomePage() {
       <section className="how shell">
         <p className="eyebrow"><span /> How it works</p>
         <div className="how__grid">
-          <div><strong>01</strong><h3>Name your position</h3><p>Submit a public URL, a clear description, and any bid from $5.</p></div>
+          <div><strong>01</strong><h3>Name your position</h3><p>Submit a public URL, a clear description, and any bid from $1.</p></div>
           <div><strong>02</strong><h3>Pay on Stripe</h3><p>Checkout is hosted by Stripe. Card details never touch this site.</p></div>
           <div><strong>03</strong><h3>Move in public</h3><p>Your confirmed payment adds to the project total and the ranking updates.</p></div>
         </div>
@@ -100,7 +100,7 @@ export default async function HomePage() {
         <div><BrandMark /><p>Mechanism <a href="https://outbid.lol/" rel="noopener">inspired by outbid.lol</a>.<br />Built independently for outbid.website.</p></div>
         <div className="footer__links"><Link href="/about">About</Link><Link href="/rules">Rules</Link><a href="mailto:hello@outbid.website">Contact</a></div>
       </footer>
-      <a className="mobile-bid" href="#place-a-bid">Place a bid · from $5</a>
+      <a className="mobile-bid" href="#place-a-bid">Place a bid · from $1</a>
     </main>
   );
 }

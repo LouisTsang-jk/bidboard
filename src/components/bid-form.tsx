@@ -38,13 +38,13 @@ export function BidForm({ suggestedAmount }: { suggestedAmount: number }) {
     <form className="bid-console" onSubmit={submit}>
       <div className="bid-console__topline">
         <p><span>●</span> CLAIM A POSITION</p>
-        <p>Minimum $5 · cumulative bids · secure checkout</p>
+        <p>Minimum $1 · cumulative bids · secure checkout</p>
       </div>
       <div className="bid-console__fields">
         <label><span>Destination</span><input name="url" placeholder="https://yourproduct.com" required type="url" /></label>
         <label><span>Project name</span><input maxLength={80} name="title" placeholder="Your product" required /></label>
         <label className="field-description"><span>One-line pitch</span><input maxLength={240} minLength={10} name="description" placeholder="What makes it worth the click?" required /></label>
-        <label className="field-amount"><span>Bid, USD</span><div><b>$</b><input defaultValue={suggestedAmount} min="5" name="amount" required step="1" type="number" /></div></label>
+        <label className="field-amount"><span>Bid, USD</span><div><b>$</b><input defaultValue={suggestedAmount} min="1" name="amount" required step="1" type="number" /></div></label>
         <button disabled={status === "loading"} type="submit">{status === "loading" ? "Opening…" : "Claim position"}<span aria-hidden="true">↗</span></button>
       </div>
       {status === "error" ? <p className="form-error" role="alert">{message}</p> : null}
