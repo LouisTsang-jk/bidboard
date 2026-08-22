@@ -7,7 +7,7 @@ import { LeaderboardRow } from "@/components/leaderboard-row";
 import { getLeaderboard } from "@/lib/leaderboard";
 import { formatUsdMinor } from "@/lib/money";
 
-export const revalidate = 10;
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const listings = await getLeaderboard();
