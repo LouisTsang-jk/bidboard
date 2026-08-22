@@ -13,7 +13,7 @@ describe("money", () => {
     expect(() => dollarsToMinor("1.001")).toThrow("valid");
   });
   it("formats whole and fractional dollars", () => {
-    expect(formatUsdMinor(500n)).toBe("$5");
+    expect(formatUsdMinor(100n)).toBe("$1");
     expect(formatUsdMinor(1_995n)).toBe("$19.95");
   });
 });

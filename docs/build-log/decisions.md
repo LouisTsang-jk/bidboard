@@ -4,6 +4,8 @@
 
 Each confirmed payment permanently adds to a normalized URL’s cumulative total. Checkout does not reserve a rank. This avoids high-concurrency reservation races and makes delayed payment methods safe.
 
+The enforced minimum is USD 1. When the board is empty, the suggested opening amount is USD 1; otherwise the claim-first suggestion is the current leader plus USD 1. Smaller accepted bids can still enter below the leader based on their cumulative total.
+
 ## Payment consistency
 
 The local checkout intent is created before Stripe. Stripe receives only the intent ID in metadata and uses a stable idempotency key. The webhook verifies its signature, event ID, session ID, amount, and currency against PostgreSQL. A single transaction inserts the unique event and payment, atomically increments the listing total, records a contribution, and writes an outbox event.
@@ -23,6 +25,8 @@ The homepage footer, About page, Rules page, README, and public build prompt inc
 ## Account isolation
 
 `outbid.website` uses its own United Kingdom Stripe account and sandbox instead of sharing LACUNA.FM's payment account. The test product that was briefly created in the LACUNA.FM sandbox was archived before any transaction occurred. The Railway Web and Worker services share source code, database, and Redis, but service-specific commands and health checks are configured independently in Railway.
+
+The independent Sandbox Product keeps one active USD 1 default Price. The former USD 5 Price is archived. Checkout still uses dynamic `price_data` against the reusable Product, so server-validated bid amounts above USD 1 do not create permanent Prices.
 
 ## Railway rendering and edge cache
 

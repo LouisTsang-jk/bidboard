@@ -1,8 +1,8 @@
 # Build timeline
 
 - **Start:** `2026-08-22T10:50:26+08:00`
-- **End:** pending production smoke test
-- **Elapsed:** pending production smoke test
+- **End:** `2026-08-22T12:35:54+08:00`
+- **Elapsed:** `1h 45m 28s`
 
 ## Events
 
@@ -28,5 +28,11 @@
 | `2026-08-22T11:59:48+08:00` | Moved homepage data access to request time, retained the Redis hot cache, and added `s-maxage=10, stale-while-revalidate=60` for Railway's edge cache. The Railway-like build then passed with intentionally unreachable private-network URLs. | Git commit `5caa008`. |
 | `2026-08-22T12:04:33+08:00` | Verified the deployed Railway homepage over HTTPS with the empty production database, original generated artwork, bid form, public rules, and visible outbid.lol attribution. | [`12-railway-preview-homepage.png`](./screenshots/12-railway-preview-homepage.png) |
 | `2026-08-22T12:09:52+08:00` | Confirmed the independent `outbid.website` Railway project had Web, Worker, PostgreSQL, and Redis online; the custom domain was prepared and awaiting DNS. | [`11-railway-services.png`](./screenshots/11-railway-services.png) |
+| `2026-08-22T12:17:16+08:00` | Lowered the enforced minimum bid from USD 5 to USD 1 across server validation, form constraints, homepage copy, rules, and boundary tests. | Git commit `c2c031c`. |
+| `2026-08-22T12:23:27+08:00` | Created a USD 1 one-time Stripe Sandbox price, made it the Product default, and archived the former USD 5 price. | [`13-stripe-one-dollar.png`](./screenshots/13-stripe-one-dollar.png) |
+| `2026-08-22T12:32:30+08:00` | Verified that the production site could create a hosted USD 1 Checkout Session in the independent Stripe Sandbox. No real card or real charge was involved. | [`14-stripe-checkout-one-dollar.png`](./screenshots/14-stripe-checkout-one-dollar.png) |
+| `2026-08-22T12:33:30+08:00` | Completed a Stripe test-card payment; the signed production Webhook returned HTTP 200 with `result: applied` and published `outbid.website` at a cumulative USD 1. | Stripe Event Delivery and the production leaderboard. |
+| `2026-08-22T12:35:00+08:00` | Manually resent the identical Stripe Event; the Webhook returned HTTP 200 with `result: duplicate-event`, while the public total remained USD 1. | [`15-webhook-idempotency.png`](./screenshots/15-webhook-idempotency.png) |
+| `2026-08-22T12:35:54+08:00` | Completed the production smoke test at `https://outbid.website`: valid HTTPS, one active position, USD 1 minimum, original artwork, attribution, Railway services, CDN/Redis cache path, Checkout, and Webhook idempotency all verified. | [`16-final-homepage.png`](./screenshots/16-final-homepage.png) |
 
-The end time must only be added after `https://outbid.website` passes the production smoke test.
+The end time was recorded only after the production smoke test and duplicate-Webhook verification passed.
