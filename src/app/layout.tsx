@@ -42,6 +42,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${instrumentSans.variable} ${barlowCondensed.variable}`}>
+      <head>
+        <script
+          defer
+          data-domain="outbid.website"
+          src="https://plausible-analytics-ce-production-9116.up.railway.app/js/script.js"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
